@@ -24,7 +24,7 @@ if (!packageType ||
  */
 const packageOption = {
   dir: './dist',
-  asar: false,
+  asar: true,
   name: packageType,
   electronVersion: '1.8.2-beta.2',
   ignore: ignoreFunc

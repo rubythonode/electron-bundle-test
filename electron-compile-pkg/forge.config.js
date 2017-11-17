@@ -14,7 +14,8 @@ module.exports = {
       ]
   },
   "electronPackagerConfig": {
-    ignore: ignoreFunc
+    ignore: ignoreFunc,
+    asar: true
   },
   "electronWinstallerConfig": {
       "name": "prebuilt"
