@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { mkdir, rm } from 'shelljs';
+import { mkdir, rm, cp } from 'shelljs';
 
 //directory to place compiled source template to generate default / webpack package
 const distPath = path.resolve('./dist');
@@ -16,14 +16,24 @@ enum PackageType {
 /**
  * Delete intermidiate files
  */
-const cleanUp = () => {
+const cleanUp = (type: PackageType) => {
   console.log(`\nCleanup existing files`);
-  [...Object.keys(PackageType), distPath].forEach((p) => rm('-rf', p));
+  [type, distPath].forEach((p) => rm('-rf', p));
   mkdir(distPath);
+}
+
+/**
+ * for some reason mv doesn't work across platform?
+ *
+ */
+const pseudoMv = (source, dest) => {
+  cp('-r', source, dest);
+  rm('-rf', source);
 }
 
 export {
   distPath,
   PackageType,
-  cleanUp
+  cleanUp,
+  pseudoMv
 }

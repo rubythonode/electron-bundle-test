@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as prettyjson from 'prettyjson';
 import * as fs from 'fs';
 import 'tslib';
-import { PackageType, distPath, cleanUp } from './util';
+import { PackageType, distPath, cleanUp, pseudoMv } from './util';
 import * as glob from 'glob';
 
 const packager = require('electron-packager');
@@ -73,11 +73,9 @@ const prepareSources = async () => {
 }
 
 (async () => {
-  cleanUp();
+  cleanUp(packageType);
   await prepareSources();
 
   const builtPackagePath = await packager(packageOption);
-  mv(builtPackagePath[0], path.resolve(packageType));
-
-  cleanUp();
+  pseudoMv(builtPackagePath[0], packageType);
 })();
