@@ -7,6 +7,8 @@ import * as fs from 'fs';
 import 'tslib';
 import { PackageType, distPath, cleanUp, pseudoMv } from './util';
 import * as glob from 'glob';
+import * as _ from 'lodash';
+import { ignoreFunc } from './strip-package-module';
 
 const packager = require('electron-packager');
 const packageType: PackageType = process.env.BUILD as any;
@@ -24,7 +26,8 @@ const packageOption = {
   dir: './dist',
   asar: false,
   name: packageType,
-  electronVersion: '1.8.2-beta.2'
+  electronVersion: '1.8.2-beta.2',
+  ignore: ignoreFunc
 };
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', { encoding: 'utf-8' }));
