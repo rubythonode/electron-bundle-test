@@ -1,5 +1,9 @@
 import { app, BrowserWindow } from 'electron';
 
+const start = process.hrtime();
+require('./module-main');
+const time = process.hrtime(start);
+
 let mainWindow;
 const createWindow = () => {
   mainWindow = new BrowserWindow({ width: 800, height: 600, });
