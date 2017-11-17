@@ -20,3 +20,10 @@ rules/
 # Misc
 npm-debug.log
 .DS_STORE
+
+# Build
+default/
+prebuilt/
+webpack/
+
+package-lock.json
