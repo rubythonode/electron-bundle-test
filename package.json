@@ -2,9 +2,11 @@
   "name": "electron-bundle-test",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pack:default": "cross-env BUILD=default ts-node package-electron.ts",
+    "pack:prebuilt": "ts-node package-electron-compile.ts",
+    "pack:webpack": "cross-env BUILD=webpack ts-node package-electron.ts"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,23 @@
   "bugs": {
     "url": "https://github.com/kwonoj/electron-bundle-test/issues"
   },
-  "homepage": "https://github.com/kwonoj/electron-bundle-test#readme"
+  "homepage": "https://github.com/kwonoj/electron-bundle-test#readme",
+  "devDependencies": {
+    "@types/prettyjson": "0.0.28",
+    "@types/shelljs": "^0.7.6",
+    "cross-env": "^5.1.1",
+    "electron": "^1.8.2-beta.2",
+    "electron-packager": "^9.1.0",
+    "glob": "^7.1.2",
+    "jade": "^1.11.0",
+    "prettyjson": "^1.2.1",
+    "shelljs": "^0.7.8",
+    "shx": "^0.2.2",
+    "ts-node": "^3.3.0",
+    "tslib": "^1.8.0",
+    "typescript": "^2.6.1"
+  },
+  "dependencies": {
+    "rxjs": "^5.5.2"
+  }
 }
