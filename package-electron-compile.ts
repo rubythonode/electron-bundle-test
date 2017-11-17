@@ -17,7 +17,7 @@ pushd(`./electron-compile-pkg`);
 console.log(`Setup dependencies for package`);
 exec('npm install');
 console.log(`Start packaging`);
-exec('npx electron-forge package'); //--asar
+exec('npx electron-forge package');
 console.log(`Cleanup copied template source code`)
 rm([path.join(srcPath, '*.ts'), path.join(srcPath, '*.html')]);
 console.log(`Preparing package under 'prebuilt'`);

@@ -7,6 +7,8 @@ import * as fs from 'fs';
 import 'tslib';
 import { PackageType, distPath, cleanUp, pseudoMv } from './util';
 import * as glob from 'glob';
+import * as _ from 'lodash';
+import { ignoreFunc } from './strip-package-module';
 
 const packager = require('electron-packager');
 const packageType: PackageType = process.env.BUILD as any;
@@ -22,9 +24,10 @@ if (!packageType ||
  */
 const packageOption = {
   dir: './dist',
-  asar: false,
+  asar: true,
   name: packageType,
-  electronVersion: '1.8.2-beta.2'
+  electronVersion: '1.8.2-beta.2',
+  ignore: ignoreFunc
 };
 
 const packageJson = JSON.parse(fs.readFileSync('./package.json', { encoding: 'utf-8' }));
@@ -33,7 +36,7 @@ const packageJson = JSON.parse(fs.readFileSync('./package.json', { encoding: 'ut
  */
 const packageDefinition = {
   name: packageType,
-  main: packageType === PackageType.webpack ? 'webpack.js' : 'main.js',
+  main: 'main.js',
   description: packageType,
   repository: packageJson.repository,
   license: packageJson.license,
@@ -44,10 +47,6 @@ const packageDefinition = {
 console.log(`Building package for '${packageType}'`);
 
 const prepareDependency = () => {
-  console.log(`\nPreparing dependencies for dist directory`);
-
-  //copy package.json
-  require('fs').writeFileSync(path.join(distPath, 'package.json'), JSON.stringify(packageDefinition));
   console.log(`Installing dependencies:`);
   console.log(prettyjson.render(packageDefinition))
 
@@ -59,15 +58,23 @@ const prepareDependency = () => {
 
 const prepareSources = async () => {
   console.log(prettyjson.render(packageOption));
+  cp('./template/index.html', './dist');
+
+  //copy package.json
+  console.log(`\nPreparing dependencies for dist directory`);
+  require('fs').writeFileSync(path.join(distPath, 'package.json'), JSON.stringify(packageDefinition));
 
   switch (packageType) {
     case PackageType.default:
+      //need to install node_modules
       prepareDependency();
       //for default package, simply run tsc then copy renderer html
       exec(`tsc --outdir ./dist ${glob.sync('./template/*.ts').join(' ')}`);
-      cp('./template/index.html', './dist');
       break;
     case PackageType.webpack:
+      //do not install node_modules, webpack picks up dependency
+      exec(`npx webpack --config ./main.webpack.config.js`);
+      exec(`npx webpack --config ./renderer.webpack.config.js`);
       break;
   }
 }
