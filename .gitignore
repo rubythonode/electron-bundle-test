@@ -25,5 +25,6 @@ npm-debug.log
 default/
 prebuilt/
 webpack/
+electron-compile-pkg/out
 
 package-lock.json

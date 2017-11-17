@@ -1,8 +1,8 @@
 import { ls, rm, mkdir, pushd, exec, popd, cp, mv } from 'shelljs';
-import { cleanUp } from './util';
+import { cleanUp, PackageType, pseudoMv } from './util';
 import * as path from 'path';
 
-cleanUp();
+cleanUp(PackageType.prebuilt);
 
 //path to place teamplate source into electron-compile package
 const srcPath = path.resolve(`./electron-compile-pkg/src`);
@@ -21,6 +21,6 @@ exec('npx electron-forge package'); //--asar
 console.log(`Cleanup copied template source code`)
 rm([path.join(srcPath, '*.ts'), path.join(srcPath, '*.html')]);
 console.log(`Preparing package under 'prebuilt'`);
-mv(path.join('./out', ls('./out')[0]), '../prebuilt');
+pseudoMv(path.join('./out', ls('./out')[0]), '../prebuilt');
 rm('-rf', './out');
 popd();
