@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "suppressImplicitAnyIndexErrors": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": [
+      "es2016",
+      "dom"
+    ]
+  },
+  "formatCodeOptions": {
+    "indentSize": 2,
+    "tabSize": 2
+  }
+}
